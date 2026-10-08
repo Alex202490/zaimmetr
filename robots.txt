@@ -1,0 +1,5 @@
+# Pre-launch: do not crawl until Saleads widget and legal pages are verified.
+User-agent: *
+Disallow: /
+
+Sitemap: https://zaimmetr.ru/sitemap.xml
