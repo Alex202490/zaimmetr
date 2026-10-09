@@ -51,5 +51,39 @@ nav a{white-space:nowrap}
 <script>
 const amount=document.getElementById('amount'),days=document.getElementById('days'),dailyRate=document.getElementById('dailyRate'),fmt=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0});function render(){const a=Number(amount.value),d=Number(days.value),rate=Number(dailyRate.value),over=Math.round(a*rate/100*d);document.getElementById('amountValue').textContent=fmt.format(a)+' ₽';document.getElementById('daysValue').textContent=d+' '+(d%10===1&&d%100!==11?'день':d%10>=2&&d%10<=4&&(d%100<12||d%100>14)?'дня':'дней');document.getElementById('overpayment').textContent=fmt.format(over)+' ₽';document.getElementById('total').textContent=fmt.format(a+over)+' ₽';document.getElementById('rateValue').textContent=String(rate).replace('.',',')+'% в день'}amount.addEventListener('input',render);days.addEventListener('input',render);dailyRate.addEventListener('change',render);render();const compareAmount=document.getElementById('compareAmount'),compareDays=document.getElementById('compareDays'),compareRows=document.getElementById('compareRows');function renderCompare(){const a=Number(compareAmount.value),d=Number(compareDays.value);compareRows.innerHTML=[0,0.003,0.005,0.008].map(rate=>{const over=Math.round(a*rate*d);return '<tr><td><strong>'+String((rate*100).toFixed(1)).replace('.',',')+'% в день</strong></td><td>'+fmt.format(over)+' ₽</td><td>'+fmt.format(a+over)+' ₽</td><td>'+(rate===0?'Сценарий без процентов':'Сравните итоговую сумму')+'</td></tr>'}).join('')}compareAmount.addEventListener('change',renderCompare);compareDays.addEventListener('change',renderCompare);renderCompare();const search=document.getElementById('articleSearch'),topicButtons=[...document.querySelectorAll('[data-topic]')],articleCards=[...document.querySelectorAll('.library-card')];let selectedTopic='Все';function filterArticles(){const q=search.value.trim().toLocaleLowerCase('ru');let shown=0;articleCards.forEach(card=>{const ok=(selectedTopic==='Все'||card.dataset.category===selectedTopic)&&card.dataset.search.includes(q);card.hidden=!ok;if(ok)shown++});document.getElementById('noArticles').hidden=shown!==0}search.addEventListener('input',filterArticles);topicButtons.forEach(btn=>btn.addEventListener('click',()=>{selectedTopic=btn.dataset.topic;topicButtons.forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));filterArticles()}));document.getElementById('year').textContent=new Date().getFullYear();
 </script>
-<script type="text/javascript">(function(w,i,d,g,e,t){e=w.createElement(i),t=w.getElementsByTagName(i)[0],e.async=1,e.src=d,e.onload=g,t.parentNode.insertBefore(e,t)})(document,"script","https://my.saleads.pro/w/abad",function(){SaleadsWidget("abad","saleads-offers-1")});</script>
+<script>
+/* Load the partner catalog only when it approaches the viewport.
+   This avoids a third-party network request for visitors who never open the catalog. */
+(function(){
+  const mount=document.getElementById('saleads-offers-1');
+  if(!mount)return;
+  let started=false;
+  function loadOffers(){
+    if(started)return;
+    started=true;
+    const script=document.createElement('script');
+    script.src='https://my.saleads.pro/w/abad';
+    script.async=true;
+    script.onload=function(){
+      if(typeof window.SaleadsWidget==='function'){
+        try{window.SaleadsWidget('abad','saleads-offers-1')}
+        catch(err){console.error('Saleads widget initialization failed',err)}
+      }
+    };
+    script.onerror=function(){console.warn('Saleads widget unavailable')};
+    document.head.appendChild(script);
+  }
+  if('IntersectionObserver' in window){
+    const observer=new IntersectionObserver(function(entries){
+      if(entries.some(function(entry){return entry.isIntersecting})){
+        observer.disconnect();
+        loadOffers();
+      }
+    },{rootMargin:'450px 0px'});
+    observer.observe(mount);
+  }else{
+    loadOffers();
+  }
+})();
+</script>
 </body></html>
