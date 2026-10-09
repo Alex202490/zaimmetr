@@ -24,6 +24,13 @@
 #saleads-offers-1 .saleads-d2-offers-wrapper>.slds-offer-item,#saleads-offers-1 .saleads-d2-offers-wrapper>.card-item{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;box-sizing:border-box}
 @media(max-width:1050px){#saleads-offers-1 .saleads-d2-offers-wrapper{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:650px){#saleads-offers-1 .saleads-d2-offers-wrapper{grid-template-columns:minmax(0,1fr)!important}}
+
+/* Prevent accidental horizontal page scrolling on narrow mobile screens. */
+html{max-width:100%;overflow-x:clip}
+body{max-width:100%;overflow-x:clip}
+.wrap,.hero-grid,.hero-grid>*,.calc,.card,.library-card,.catalog-placeholder{min-width:0}
+nav a{white-space:nowrap}
+@media(max-width:560px){.nav{width:100%}nav{max-width:100%;gap:10px 14px} .field{gap:10px}.field output{text-align:right;overflow-wrap:anywhere}.result{grid-template-columns:repeat(2,minmax(0,1fr))}.result strong{overflow-wrap:anywhere}.catalog-placeholder{padding:18px}.library-toolbar input{min-width:0;width:100%}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"ЗаймМетр","url":"http://zaimmetr.ru/","inLanguage":"ru-RU","description":"Информационный портал о микрозаймах: расчёт стоимости займа, сравнение условий и советы по финансовой грамотности."}</script>
 </head>
