@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zaimmetr.ru/sitemap.xml
+Sitemap: http://zaimmetr.ru/sitemap.xml
