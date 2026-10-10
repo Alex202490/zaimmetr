@@ -107,4 +107,23 @@ compareAmount.addEventListener('change',renderCompare);compareDays.addEventListe
   }
 })();
 </script>
+<script>
+/* Track outbound partner links in the dynamically rendered Saleads catalog. */
+(function(){
+  const catalog=document.getElementById('saleads-offers-1');
+  if(!catalog)return;
+  catalog.addEventListener('click',function(event){
+    const target=event.target;
+    if(!(target instanceof Element))return;
+    const link=target.closest('a[href]');
+    if(!link||!catalog.contains(link))return;
+    let url;
+    try{url=new URL(link.href,document.baseURI)}catch(e){return}
+    if(!/^https?:$/.test(url.protocol)||url.origin===location.origin)return;
+    if(typeof window.ym==='function'){
+      window.ym(113594048,'reachGoal','partner_click');
+    }
+  });
+})();
+</script>
 </body></html>
